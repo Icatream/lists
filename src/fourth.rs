@@ -32,10 +32,6 @@ impl<T> List<T> {
         }
     }
 
-    pub fn into_iter(self) -> IntoIter<T> {
-        IntoIter(self)
-    }
-
     pub fn push_front(&mut self, elem: T) {
         let new_head = Node::new(elem);
         match self.head.take() {
@@ -110,6 +106,10 @@ impl<T> List<T> {
 
     pub fn peek_back_mut(&mut self) -> Option<RefMut<T>> {
         self.tail.as_mut().map(|node| RefMut::map(node.borrow_mut(), |node| &mut node.elem))
+    }
+
+    pub fn into_iter(self) -> IntoIter<T> {
+        IntoIter(self)
     }
 }
 
@@ -221,7 +221,9 @@ mod test {
     #[test]
     fn into_iter() {
         let mut list = List::new();
-        list.push_front(1); list.push_front(2); list.push_front(3);
+        list.push_front(1);
+        list.push_front(2);
+        list.push_front(3);
 
         let mut iter = list.into_iter();
         assert_eq!(iter.next(), Some(3));
