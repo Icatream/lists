@@ -56,7 +56,6 @@ impl<T> Drop for List<T> {
         let mut curr_link = self.head.take();
         while let Some(mut node) = curr_link {
             curr_link = node.next.take();
-
         }
     }
 }
